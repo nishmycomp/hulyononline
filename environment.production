@@ -20,7 +20,8 @@ ADMIN_EMAILS=admin@imploy.com.au
 
 # Mail Configuration (Optional - for email notifications)
 # Leave empty to disable email features
-MAIL_URL=
+MAIL_URL=smtp://yourname@gmail.com:sabj jqwv hfjk pzuq@smtp.gmail.com:587
+GMAIL_URL=smtp://yourname@gmail.com:sabj jqwv hfjk pzuq@smtp.gmail.com:587
 
 # Storage Configuration
 # Default MinIO configuration - change credentials in production

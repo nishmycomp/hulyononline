@@ -162,6 +162,8 @@ services:
       - SERVER_PORT=8080
       - ACCOUNTS_URL=http://account:3000
       - UPLOAD_URL=/files
+      - GMAIL_URL=${GMAIL_URL:-}
+      - MAIL_URL=${MAIL_URL:-}
     restart: unless-stopped
     networks:
       - huly-network
