@@ -6,12 +6,12 @@ SERVER_SECRET=your-super-secret-key-change-this-in-production
 
 # Domain Configuration
 # Replace with your actual domain or server IP
-DOMAIN=your-domain.com
-FRONT_URL=http://your-domain.com:15087
+DOMAIN=admin.imploy.com.au
+FRONT_URL=http://admin.imploy.com.au:15087
 
 # Admin Configuration
 # Replace with your admin email address
-ADMIN_EMAILS=admin@your-domain.com
+ADMIN_EMAILS=admin@imploy.com.au
 
 # Mail Configuration (Optional - for email notifications)
 # Leave empty to disable email features
