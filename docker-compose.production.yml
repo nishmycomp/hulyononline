@@ -116,7 +116,7 @@ services:
       - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
       - REGION_INFO=cockroach|CockroachDB
       - TRANSACTOR_URL=ws://workspace:3333
-      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - STORAGE_CONFIG=minio|minio:9000?accessKey=minioadmin&secretKey=minioadmin
       - FRONT_URL=${FRONT_URL:-http://localhost:8087}
       - MODEL_ENABLED=*
       - ACCOUNTS_URL=http://account:3000
@@ -141,7 +141,7 @@ services:
       - SERVER_SECRET=${SERVER_SECRET:-secret}
       - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
       - STATS_URL=http://stats:4900
-      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - STORAGE_CONFIG=minio|minio:9000?accessKey=minioadmin&secretKey=minioadmin
       - MODEL_ENABLED=*
       - ACCOUNTS_URL=http://account:3000
       - ELASTIC_URL=http://elasticsearch:9200
