@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Database
   cockroach:
@@ -36,7 +34,7 @@ services:
       - "18081:18081"
       - "18082:18082"
       - "19092:19092"
-      - "19644:9644"
+      - "19645:9644"
     volumes:
       - redpanda_data:/var/lib/redpanda/data
     healthcheck:
