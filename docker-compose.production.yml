@@ -5,7 +5,7 @@ services:
     command: start-single-node --insecure
     ports:
       - "26257:26257"
-      - "8089:8080"
+      - "8090:8080"
     volumes:
       - cockroach_data:/cockroach/cockroach-data
     environment:

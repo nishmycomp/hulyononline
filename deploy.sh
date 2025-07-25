@@ -106,7 +106,7 @@ check_health() {
         echo
         echo "Access your Huly instance at:"
         echo "  Frontend: http://your-domain.com:8087"
-        echo "  Admin Panel: http://your-domain.com:8089 (CockroachDB)"
+        echo "  Admin Panel: http://your-domain.com:8090 (CockroachDB)"
         echo "  MinIO Console: http://your-domain.com:9011"
         echo
         echo "Default MinIO credentials:"
