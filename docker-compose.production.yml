@@ -4,8 +4,8 @@ services:
     image: cockroachdb/cockroach:latest-v24.2
     command: start-single-node --insecure
     ports:
-      - "26257:26257"
-      - "8090:8080"
+      - "15432:26257"
+      - "15433:8080"
     volumes:
       - cockroach_data:/cockroach/cockroach-data
     environment:
@@ -31,10 +31,10 @@ services:
       - --smp 1
       - --default-log-level=info
     ports:
-      - "18081:18081"
-      - "18082:18082"
-      - "19092:19092"
-      - "19645:9644"
+      - "15081:18081"
+      - "15082:18082"
+      - "15092:19092"
+      - "15044:9644"
     volumes:
       - redpanda_data:/var/lib/redpanda/data
     healthcheck:
@@ -51,8 +51,8 @@ services:
     image: minio/minio:latest
     command: server /data --address ":9000" --console-address ":9001"
     ports:
-      - "9010:9000"
-      - "9011:9001"
+      - "15100:9000"
+      - "15101:9001"
     volumes:
       - minio_data:/data
     environment:
@@ -71,7 +71,7 @@ services:
   elasticsearch:
     image: elasticsearch:7.14.2
     ports:
-      - "9200:9200"
+      - "15200:9200"
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     environment:
@@ -90,7 +90,7 @@ services:
   stats:
     image: hardcoreeng/stats:latest
     ports:
-      - "4900:4900"
+      - "15900:4900"
     environment:
       - PORT=4900
       - SERVER_SECRET=${SERVER_SECRET:-secret}
@@ -102,7 +102,7 @@ services:
   account:
     image: hardcoreeng/account:latest
     ports:
-      - "3000:3000"
+      - "15000:3000"
     depends_on:
       - cockroach
       - minio
@@ -129,7 +129,7 @@ services:
   workspace:
     image: hardcoreeng/workspace:latest
     ports:
-      - "3333:3333"
+      - "15333:3333"
     depends_on:
       - cockroach
       - minio
@@ -154,7 +154,7 @@ services:
   frontend:
     image: hardcoreeng/front:latest
     ports:
-      - "8087:8080"
+      - "15087:8080"
     depends_on:
       - account
       - workspace

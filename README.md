@@ -33,9 +33,9 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for complete setup instructions.
 ## 🌐 Access Points
 
 After deployment:
-- **Frontend**: http://your-server:8087
-- **Database Admin**: http://your-server:8089
-- **File Storage**: http://your-server:9001
+- **Frontend**: http://your-server:15087
+- **Database Admin**: http://your-server:15433
+- **File Storage**: http://your-server:15101
 
 ## 🆘 Support
 

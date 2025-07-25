@@ -10,15 +10,15 @@ Before deploying Huly, ensure your server meets these requirements:
 - **OS**: AlmaLinux (or RHEL-based distro)
 - **RAM**: Minimum 8GB (16GB recommended)
 - **Storage**: 50GB+ free space
-- **Ports**: Ensure these ports are available:
-  - 8087 (Frontend)
-  - 3000 (Account Service)
-  - 3333 (Workspace Service)
-  - 4900 (Stats Service)
-  - 26257, 8089 (CockroachDB)
-  - 9000, 9001 (MinIO)
-  - 9200 (Elasticsearch)
-  - 18081, 18082, 19092, 19644 (Redpanda)
+- **Ports**: Ensure these ports are available (all moved to 15000+ range to avoid conflicts):
+  - 15087 (Frontend)
+  - 15000 (Account Service)
+  - 15333 (Workspace Service)
+  - 15900 (Stats Service)
+  - 15432, 15433 (CockroachDB)
+  - 15100, 15101 (MinIO)
+  - 15200 (Elasticsearch)
+  - 15081, 15082, 15092, 15044 (Redpanda)
 
 ### Software Requirements
 - Docker 20.10+
@@ -85,9 +85,9 @@ chmod +x deploy.sh
 ### 5. Access Your Huly Instance
 
 Once deployed, access Huly at:
-- **Main Application**: `http://your-domain.com:8087`
-- **Database Admin**: `http://your-domain.com:8089`
-- **File Storage Admin**: `http://your-domain.com:9001`
+- **Main Application**: `http://your-domain.com:15087`
+- **Database Admin**: `http://your-domain.com:15433`
+- **File Storage Admin**: `http://your-domain.com:15101`
 
 ## 🛠 Management Commands
 
@@ -121,17 +121,17 @@ Configure your firewall to allow necessary ports:
 
 ```bash
 # For AlmaLinux/RHEL with firewalld
-sudo firewall-cmd --permanent --add-port=8087/tcp  # Frontend
-sudo firewall-cmd --permanent --add-port=3000/tcp  # Account API
-sudo firewall-cmd --permanent --add-port=9001/tcp  # MinIO Console
-sudo firewall-cmd --permanent --add-port=8089/tcp  # DB Admin
+sudo firewall-cmd --permanent --add-port=15087/tcp  # Frontend
+sudo firewall-cmd --permanent --add-port=15000/tcp  # Account API
+sudo firewall-cmd --permanent --add-port=15101/tcp  # MinIO Console
+sudo firewall-cmd --permanent --add-port=15433/tcp  # DB Admin
 sudo firewall-cmd --reload
 
 # For systems with iptables
-sudo iptables -A INPUT -p tcp --dport 8087 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 3000 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 9001 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 8089 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 15087 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 15000 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 15101 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 15433 -j ACCEPT
 ```
 
 ### 2. SSL/TLS Setup (Recommended)
@@ -273,8 +273,8 @@ docker run --rm -v $(pwd):/backup -v huly_minio_data:/data alpine tar czf /backu
 
 Monitor your Huly instance:
 
-1. **CockroachDB Admin**: `http://your-domain.com:8089`
-2. **MinIO Console**: `http://your-domain.com:9001`
+1. **CockroachDB Admin**: `http://your-domain.com:15433`
+2. **MinIO Console**: `http://your-domain.com:15101`
 3. **Application logs**: `./deploy.sh logs`
 
 ## 🆘 Support
