@@ -168,6 +168,7 @@ services:
       - MINIO_ENDPOINT=minio:9000
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
+      - CALENDAR_URL=http://localhost:8095
     restart: unless-stopped
     networks:
       - huly-network
