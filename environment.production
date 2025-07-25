@@ -2,7 +2,12 @@
 # Copy this file to .env and modify the values for your deployment
 
 # Security
-SERVER_SECRET=your-super-secret-key-change-this-in-production
+SERVER_SECRET=ImployHulyAdmin2025!ProductionServer#789
+
+# Storage & Backup Configuration
+BACKUP_STORAGE=minio
+STORAGE_BUCKET=huly-storage
+BACKUP_BUCKET_NAME=huly-backup
 
 # Domain Configuration
 # Replace with your actual domain or server IP
@@ -25,6 +30,7 @@ MINIO_ROOT_PASSWORD=minioadmin
 # Database Configuration
 # CockroachDB connection string
 DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+DATABASE_URL=postgres://root@cockroach:26257/huly?sslmode=disable
 
 # Backup Configuration (Optional)
 # BACKUP_STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=

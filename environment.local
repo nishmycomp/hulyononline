@@ -4,6 +4,11 @@
 # Security (use simple values for local testing)
 SERVER_SECRET=local-development-secret-key
 
+# Storage & Backup Configuration
+BACKUP_STORAGE=minio
+STORAGE_BUCKET=huly-storage
+BACKUP_BUCKET_NAME=huly-backup
+
 # Domain Configuration (for local testing)
 DOMAIN=localhost
 FRONT_URL=http://localhost:15087
@@ -20,6 +25,7 @@ MINIO_ROOT_PASSWORD=minioadmin
 
 # Database Configuration
 DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+DATABASE_URL=postgres://root@cockroach:26257/huly?sslmode=disable
 
 # Performance Tuning (reduced for local testing)
 ES_JAVA_OPTS=-Xms512m -Xmx1024m
