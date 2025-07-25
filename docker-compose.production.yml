@@ -1,0 +1,179 @@
+version: '3.8'
+
+services:
+  # Database
+  cockroach:
+    image: cockroachdb/cockroach:latest-v24.2
+    command: start-single-node --insecure
+    ports:
+      - "26257:26257"
+      - "8089:8080"
+    volumes:
+      - cockroach_data:/cockroach/cockroach-data
+    environment:
+      - COCKROACH_SKIP_ENABLING_DIAGNOSTIC_REPORTING=true
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Message Queue
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v24.3.6
+    command:
+      - redpanda
+      - start
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:18082
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:18082
+      - --schema-registry-addr internal://0.0.0.0:8081,external://0.0.0.0:18081
+      - --rpc-addr redpanda:33145
+      - --advertise-rpc-addr redpanda:33145
+      - --mode dev-container
+      - --smp 1
+      - --default-log-level=info
+    ports:
+      - "18081:18081"
+      - "18082:18082"
+      - "19092:19092"
+      - "19644:9644"
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    healthcheck:
+      test: ['CMD', 'rpk', 'cluster', 'info']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # File Storage
+  minio:
+    image: minio/minio:latest
+    command: server /data --address ":9000" --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Search Engine
+  elasticsearch:
+    image: elasticsearch:7.14.2
+    ports:
+      - "9200:9200"
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+      - ELASTICSEARCH_PORT_NUMBER=9200
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 20s
+      retries: 10
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Statistics Service
+  stats:
+    image: hardcoreeng/stats:latest
+    ports:
+      - "4900:4900"
+    environment:
+      - PORT=4900
+      - SERVER_SECRET=${SERVER_SECRET:-secret}
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Account Service
+  account:
+    image: hardcoreeng/account:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - cockroach
+      - minio
+      - stats
+    environment:
+      - ACCOUNT_PORT=3000
+      - SERVER_SECRET=${SERVER_SECRET:-secret}
+      - ADMIN_EMAILS=${ADMIN_EMAILS:-admin@yourdomain.com}
+      - STATS_URL=http://stats:4900
+      - WORKSPACE_LIMIT_PER_USER=10000
+      - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+      - REGION_INFO=cockroach|CockroachDB
+      - TRANSACTOR_URL=ws://workspace:3333
+      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - FRONT_URL=${FRONT_URL:-http://localhost:8087}
+      - MODEL_ENABLED=*
+      - ACCOUNTS_URL=http://account:3000
+      - MAIL_URL=${MAIL_URL:-}
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Workspace Service
+  workspace:
+    image: hardcoreeng/workspace:latest
+    ports:
+      - "3333:3333"
+    depends_on:
+      - cockroach
+      - minio
+      - stats
+      - elasticsearch
+    environment:
+      - WS_OPERATION=all+backup
+      - REGION=cockroach
+      - SERVER_SECRET=${SERVER_SECRET:-secret}
+      - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+      - STATS_URL=http://stats:4900
+      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - MODEL_ENABLED=*
+      - ACCOUNTS_URL=http://account:3000
+      - ELASTIC_URL=http://elasticsearch:9200
+      - MAIL_URL=${MAIL_URL:-}
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+  # Frontend
+  frontend:
+    image: hardcoreeng/front:latest
+    ports:
+      - "8087:8080"
+    depends_on:
+      - account
+      - workspace
+    environment:
+      - SERVER_PORT=8080
+      - ACCOUNTS_URL=http://account:3000
+      - UPLOAD_URL=/files
+    restart: unless-stopped
+    networks:
+      - huly-network
+
+volumes:
+  cockroach_data:
+  redpanda_data:
+  minio_data:
+  elastic_data:
+
+networks:
+  huly-network:
+    driver: bridge 

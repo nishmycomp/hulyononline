@@ -1,0 +1,46 @@
+# Huly Local Testing Configuration
+# This file is for testing the deployment locally on your Windows machine
+
+# Security (use simple values for local testing)
+SERVER_SECRET=local-development-secret-key
+
+# Domain Configuration (for local testing)
+DOMAIN=localhost
+FRONT_URL=http://localhost:8087
+
+# Admin Configuration
+ADMIN_EMAILS=admin@localhost
+
+# Mail Configuration (disabled for local testing)
+MAIL_URL=
+
+# Storage Configuration (default values are fine for local testing)
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+
+# Database Configuration
+DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+
+# Performance Tuning (reduced for local testing)
+ES_JAVA_OPTS=-Xms512m -Xmx1024m
+
+# Workspace Configuration
+WORKSPACE_LIMIT_PER_USER=10000
+
+# Feature Flags
+MODEL_ENABLED=*
+
+# Local Testing Ports (same as production for consistency)
+FRONTEND_PORT=8087
+ACCOUNT_PORT=3000
+WORKSPACE_PORT=3333
+STATS_PORT=4900
+COCKROACH_PORT=26257
+COCKROACH_WEB_PORT=8089
+MINIO_PORT=9000
+MINIO_CONSOLE_PORT=9001
+ELASTICSEARCH_PORT=9200
+REDPANDA_KAFKA_PORT=19092
+REDPANDA_REGISTRY_PORT=18081
+REDPANDA_PROXY_PORT=18082
+REDPANDA_ADMIN_PORT=19644 

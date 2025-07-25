@@ -1,0 +1,57 @@
+# Huly Production Environment Configuration
+# Copy this file to .env and modify the values for your deployment
+
+# Security
+SERVER_SECRET=your-super-secret-key-change-this-in-production
+
+# Domain Configuration
+# Replace with your actual domain or server IP
+DOMAIN=your-domain.com
+FRONT_URL=https://your-domain.com
+
+# Admin Configuration
+# Replace with your admin email address
+ADMIN_EMAILS=admin@your-domain.com
+
+# Mail Configuration (Optional - for email notifications)
+# Leave empty to disable email features
+MAIL_URL=
+
+# Storage Configuration
+# Default MinIO configuration - change credentials in production
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
+
+# Database Configuration
+# CockroachDB connection string
+DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
+
+# Backup Configuration (Optional)
+# BACKUP_STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+# BACKUP_BUCKET_NAME=huly-backup
+
+# Performance Tuning
+# Java heap size for Elasticsearch (adjust based on available RAM)
+ES_JAVA_OPTS=-Xms1024m -Xmx1024m
+
+# Workspace Configuration
+WORKSPACE_LIMIT_PER_USER=10000
+
+# Feature Flags
+MODEL_ENABLED=*
+
+# Network Configuration (for cPanel deployment)
+# You may need to adjust these ports if they conflict with your server
+FRONTEND_PORT=8087
+ACCOUNT_PORT=3000
+WORKSPACE_PORT=3333
+STATS_PORT=4900
+COCKROACH_PORT=26257
+COCKROACH_WEB_PORT=8089
+MINIO_PORT=9000
+MINIO_CONSOLE_PORT=9001
+ELASTICSEARCH_PORT=9200
+REDPANDA_KAFKA_PORT=19092
+REDPANDA_REGISTRY_PORT=18081
+REDPANDA_PROXY_PORT=18082
+REDPANDA_ADMIN_PORT=19644 
