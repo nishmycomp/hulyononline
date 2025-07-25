@@ -149,7 +149,7 @@ services:
       - FRONT_URL=${FRONT_URL:-http://localhost:15087}
       - COMMUNICATION_API_ENABLED=true
       - BACKUP_STORAGE=minio
-      - BACKUP_BUCKET_NAME=huly-backup
+      - BACKUP_BUCKET=huly-backup
     restart: unless-stopped
     networks:
       - huly-network
