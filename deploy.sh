@@ -207,7 +207,7 @@ services:
       - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
       - REGION_INFO=cockroach|CockroachDB
       - TRANSACTOR_URL=ws://workspace:3333
-      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - STORAGE_CONFIG=minio|minio:9000?accessKey=minioadmin&secretKey=minioadmin
       - FRONT_URL=\${FRONT_URL:-http://localhost:8087}
       - MODEL_ENABLED=*
       - ACCOUNTS_URL=http://account:3000
@@ -232,11 +232,15 @@ services:
       - SERVER_SECRET=\${SERVER_SECRET:-secret}
       - DB_URL=postgres://root@cockroach:26257/huly?sslmode=disable
       - STATS_URL=http://stats:4900
-      - STORAGE_CONFIG=minio|minio://minioadmin:minioadmin@minio:9000?region=
+      - STORAGE_CONFIG=minio|minio:9000?accessKey=minioadmin&secretKey=minioadmin
       - MODEL_ENABLED=*
       - ACCOUNTS_URL=http://account:3000
       - ELASTIC_URL=http://elasticsearch:9200
       - MAIL_URL=\${MAIL_URL:-}
+      - FRONT_URL=\${FRONT_URL:-http://localhost:15087}
+      - COMMUNICATION_API_ENABLED=true
+      - BACKUP_STORAGE=minio
+      - BACKUP_BUCKET=huly-backup
     restart: unless-stopped
     networks:
       - huly-network
@@ -251,8 +255,27 @@ services:
       - workspace
     environment:
       - SERVER_PORT=8080
+      - SERVER_SECRET=\${SERVER_SECRET:-secret}
       - ACCOUNTS_URL=http://account:3000
+      - STATS_URL=http://stats:4900
       - UPLOAD_URL=/files
+      - GMAIL_URL=\${GMAIL_URL:-}
+      - MAIL_URL=\${MAIL_URL:-}
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - CALENDAR_URL=http://localhost:8095
+      - TELEGRAM_URL=http://localhost:8086
+      - REKONI_URL=http://localhost:4004
+      - COLLABORATOR_URL=ws://localhost:3078
+      - GITHUB_URL=http://localhost:3500
+      - PRINT_URL=http://localhost:4005
+      - SIGN_URL=http://localhost:4006
+      - DESKTOP_UPDATES_URL=https://dist.huly.io
+      - DESKTOP_UPDATES_CHANNEL=production
+      - BRANDING_URL=http://localhost:15087/branding.json
+      - COMMUNICATION_API_ENABLED=true
+      - EXCLUDED_APPLICATIONS_FOR_ANONYMOUS=["chunter", "notification"]
     restart: unless-stopped
     networks:
       - huly-network
